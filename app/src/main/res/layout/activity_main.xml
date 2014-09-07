@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <com.github.johnpersano.jenkins.visualizer.VisualizerView
+        android:id="@+id/visualizer_view"
+        android:layout_width="720dp"
+        android:layout_height="720dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <com.github.johnpersano.jenkins.views.AnimatedTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:textSize="34sp"
+        android:padding="4dp"
+        android:gravity="center"
+        android:id="@+id/animated_textview"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
