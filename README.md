@@ -25,7 +25,7 @@ In order to use this application on your Udoo Quad, you must do the following.
 Libraries used
 =========
 [CMUSphinx](http://cmusphinx.sourceforge.net/wiki/tutorialandroid) <br>
-[Wolfram Java bindings](http://products.wolframalpha.com/api/libraries.html) <br>
+[Wolfram Alpha Java bindings](http://products.wolframalpha.com/api/libraries.html) <br>
 [Android Visualizer](https://github.com/felixpalmer/android-visualizer) <br>
 
 
