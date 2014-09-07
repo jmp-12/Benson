@@ -3,16 +3,20 @@ Jenkins
 
 Jenkins is a voice recognition program designed for the [Udoo Quad](http://shop.udoo.org/usa/?___from_store=usa&popup=no) running Android. Jenkins can respond to user input with pre-programmed phrases and search the web via Wolfram API for a response to an unknown query. Pre-programmed responses utilize moods to personify Jenkins' responses as well as accept parameters for serial communication with the onboard DUE. The result is a sarcastic, personable voice recognition system with access to net-based knowledge and Arduino compatible electronics.
 
+####Check out a quick demonstration on [YouTube](http://youtu.be/HjJCI1Hjb2c).
 
-###This project is an early alpha. Expect bugs. <br>
+####This project is an early alpha. Expect bugs. <br>
 
 <p align="center">
   <img src="http://i1016.photobucket.com/albums/af284/Turbopwned/bwd6j.gif" alt="Gif"/>
 </p>
 
 
+
 Using this application
 =========
+**Please remember this project is an early alpha version, bugs will be plentiful.**<br> 
+<br>
 In order to use this application on your Udoo Quad, you must do the following.
 
 1. Upload the Arduino [sketch](https://github.com/JohnPersano/Jenkins/blob/master/arduino/sketches/simple_sketch.ino) to the onboard DUE. 
@@ -22,9 +26,9 @@ In order to use this application on your Udoo Quad, you must do the following.
 
 Libraries used
 =========
-[CMUSphinx](http://cmusphinx.sourceforge.net/wiki/tutorialandroid)
-[Wolfram Java bindings](http://products.wolframalpha.com/api/libraries.html)
-[Android Visualizer](https://github.com/felixpalmer/android-visualizer)
+[CMUSphinx](http://cmusphinx.sourceforge.net/wiki/tutorialandroid) <br>
+[Wolfram Java bindings](http://products.wolframalpha.com/api/libraries.html) <br>
+[Android Visualizer](https://github.com/felixpalmer/android-visualizer) <br>
 
 
 Developer
