@@ -5,8 +5,6 @@ Jenkins is a voice recognition program designed for the [Udoo Quad](http://shop.
 
 ####Check out a quick demonstration on [YouTube](http://youtu.be/HjJCI1Hjb2c).
 
-####This project is an early alpha. Expect bugs. <br>
-
 <p align="center">
   <img src="http://i1016.photobucket.com/albums/af284/Turbopwned/bwd6j.gif" alt="Gif"/>
 </p>
