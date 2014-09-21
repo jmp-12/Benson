@@ -16,7 +16,7 @@
  */
 
 
-package com.github.johnpersano.jenkins;
+package com.github.johnpersano.benson;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,14 +31,14 @@ import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 
-import com.github.johnpersano.jenkins.views.AnimatedTextView;
-import com.github.johnpersano.jenkins.util.JenkinsRecognizer;
-import com.github.johnpersano.jenkins.util.JenkinsResponse;
-import com.github.johnpersano.jenkins.util.ResponseGenerator;
-import com.github.johnpersano.jenkins.util.SpeechListener;
-import com.github.johnpersano.jenkins.util.SpeechListenerWrapper;
-import com.github.johnpersano.jenkins.visualizer.CircleRenderer;
-import com.github.johnpersano.jenkins.visualizer.VisualizerView;
+import com.github.johnpersano.benson.util.CMUSphinxRecognizer;
+import com.github.johnpersano.benson.views.AnimatedTextView;
+import com.github.johnpersano.benson.util.Response;
+import com.github.johnpersano.benson.util.ResponseGenerator;
+import com.github.johnpersano.benson.util.SpeechListener;
+import com.github.johnpersano.benson.util.SpeechListenerWrapper;
+import com.github.johnpersano.benson.visualizer.CircleRenderer;
+import com.github.johnpersano.benson.visualizer.VisualizerView;
 import com.wolfram.alpha.WAEngine;
 import com.wolfram.alpha.WAException;
 import com.wolfram.alpha.WAPlainText;
@@ -66,14 +66,14 @@ public class ActivityMain extends Activity implements SpeechListener {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG= "ActivityMain";
 
-    /* CMUSphinx keyword requires a string key. For simplicity, it is the same as the keyword. */
-    private static final String RECOGNITION_KEY= "jenkins";
+    /* CMUSphinx keyword requires a string key. For simplicity, the value is 'key'. */
+    private static final String RECOGNITION_KEY= "key";
 
     /* CMUSphinx keyword. This is the only word CMUSphinx will listen for. */
-    private static final String RECOGNITION_KEYWORD= "jenkins";
+    private static final String RECOGNITION_KEYWORD= "benson";
 
     /* Check the CMUSphinx recognition result for two possibilities. Sometimes the recognized word is repeated twice. */
-    private static final List<String> mKeywords = Arrays.asList("jenkins", "jenkins jenkins");
+    private static final List<String> mKeywords = Arrays.asList("benson", "benson benson");
 
     /* Generic responses for speech recognition. */
     private static final String RESPONSE_SIR = "Sir?";
@@ -84,7 +84,7 @@ public class ActivityMain extends Activity implements SpeechListener {
     private AnimatedTextView mAnimatedTextView;
 
     /* CMUSphinx speech recognizer. */
-    private SpeechRecognizer mJenkinsRecognizer;
+    private SpeechRecognizer mCMUSphinxRecognizer;
 
     /* Android text to speech. */
     private TextToSpeech mTTS;
@@ -104,11 +104,11 @@ public class ActivityMain extends Activity implements SpeechListener {
     /* Android Adk manager to communicate with the Arduino Due. */
     private AdkManager mAdkManager;
 
-    /* This handler will clear on screen text and reset mood ten seconds after Jenkins speaks. */
+    /* This handler will clear on screen text and reset mood ten seconds after Benson speaks. */
     private Handler mTextViewHandler;
 
     /* HashMap of generic responses. */
-    private HashMap<String, ArrayList<JenkinsResponse>> mGenericResponseHashMap;
+    private HashMap<String, ArrayList<Response>> mGenericResponseHashMap;
 
 
     @Override
@@ -133,7 +133,7 @@ public class ActivityMain extends Activity implements SpeechListener {
                 findViewById(R.id.animated_textview);
 
         /* Initialize the CMUSphinx speech recognizer in an AsyncTask. */
-        initializeJenkinsRecognizer();
+        initializeCMUSphinxRecognizer();
 
         /* Initialize the Android speech recognizer and recognizer intent. */
         initializeAndroidRecognizer();
@@ -164,8 +164,8 @@ public class ActivityMain extends Activity implements SpeechListener {
 
     }
 
-    /* Initialize CMUSphinx voice recognition. This will listen for the Jenkins keyword. */
-    private void initializeJenkinsRecognizer() {
+    /* Initialize CMUSphinx voice recognition. This will listen for the Benson keyword. */
+    private void initializeCMUSphinxRecognizer() {
 
         /* Do the initialization in an AsyncTask since it takes a while. */
         new AsyncTask<Void, Void, Exception>() {
@@ -183,7 +183,7 @@ public class ActivityMain extends Activity implements SpeechListener {
 
                 try {
 
-                    mJenkinsRecognizer = new JenkinsRecognizer(ActivityMain.this).getRecognizer();
+                    mCMUSphinxRecognizer = new CMUSphinxRecognizer(ActivityMain.this).getRecognizer();
 
                 } catch (IOException exception) {
 
@@ -201,7 +201,7 @@ public class ActivityMain extends Activity implements SpeechListener {
                 /* If no exception was thrown during initialization add recognition listener. */
                 if (exception == null) {
 
-                    mJenkinsRecognizer.addListener(new RecognitionListener() {
+                    mCMUSphinxRecognizer.addListener(new RecognitionListener() {
 
                         @Override
                         public void onBeginningOfSpeech() {
@@ -222,10 +222,10 @@ public class ActivityMain extends Activity implements SpeechListener {
 
                             if (hypothesis != null) {
 
-                                /* Check if response contains the jenkins keywords. */
+                                /* Check if response contains the Benson keywords. */
                                 if (mKeywords.contains(hypothesis.getHypstr())) {
 
-                                    say(new JenkinsResponse(RESPONSE_SIR, JenkinsResponse.MOOD.NORMAL, null));
+                                    say(new Response(RESPONSE_SIR, Response.MOOD.NORMAL, null));
 
                                 }
 
@@ -237,10 +237,10 @@ public class ActivityMain extends Activity implements SpeechListener {
 
                             if (hypothesis != null) {
 
-                                /* Check if response contains the jenkins keywords. */
+                                /* Check if response contains the Benson keywords. */
                                 if (mKeywords.contains(hypothesis.getHypstr())) {
 
-                                    say(new JenkinsResponse(RESPONSE_SIR, JenkinsResponse.MOOD.NORMAL, null));
+                                    say(new Response(RESPONSE_SIR, Response.MOOD.NORMAL, null));
 
                                 }
 
@@ -251,10 +251,10 @@ public class ActivityMain extends Activity implements SpeechListener {
                     });
 
                     /* Set keywords for the CMUSphinx speech recognizer to listen for. */
-                    mJenkinsRecognizer.addKeyphraseSearch(RECOGNITION_KEY, RECOGNITION_KEYWORD);
+                    mCMUSphinxRecognizer.addKeyphraseSearch(RECOGNITION_KEY, RECOGNITION_KEYWORD);
 
                     /* Do not start recognition immediately. Recognition start/stop is handled by text to speech listener. */
-                    mJenkinsRecognizer.stop();
+                    mCMUSphinxRecognizer.stop();
 
                 } else {
 
@@ -297,7 +297,7 @@ public class ActivityMain extends Activity implements SpeechListener {
 
     }
 
-    /* Initialize the Android text to speech service. This will be Jenkins voice. */
+    /* Initialize the Android text to speech service. This will be Benson's voice. */
     private void initializeSpeech() {
 
         /* Initialize the Android text to speech service and set initialization listener. */
@@ -309,22 +309,22 @@ public class ActivityMain extends Activity implements SpeechListener {
                 /* Set utterance listener if the text to speech service was initialized correctly. */
                 if (status != TextToSpeech.ERROR) {
 
-                    /* Give Jenkins an English accent. Just because. */
+                    /* Give Benson an English accent. Just because. */
                     mTTS.setLanguage(Locale.UK);
 
-                    /* On first initialization tell user Jenkins is online. */
-                    say(new JenkinsResponse(RESPONSE_ONLINE, JenkinsResponse.MOOD.NORMAL, null));
+                    /* On first initialization tell user Benson is online. */
+                    say(new Response(RESPONSE_ONLINE, Response.MOOD.NORMAL, null));
 
-                    /* Set listener for Jenkins' speech. Both recognition services will start/stop based on speech progress. */
+                    /* Set listener for Benson's speech. Both recognition services will start/stop based on speech progress. */
                     mTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
 
                         @Override
                         public void onStart(final String utteranceId) {
 
-                            /* If Jenkins is speaking, do not listen for speech recognition. */
-                            mJenkinsRecognizer.stop();
+                            /* If Benson is speaking, do not listen for speech recognition. */
+                            mCMUSphinxRecognizer.stop();
 
-                            /* Show what Jenkins is saying in the textview. Apparently this listener does not run on UI thread. */
+                            /* Show what Benson is saying in the textview. Apparently this listener does not run on UI thread. */
                             runOnUiThread(new Runnable() {
                                 public void run() {
 
@@ -341,7 +341,7 @@ public class ActivityMain extends Activity implements SpeechListener {
                         @Override
                         public void onDone(String utteranceId) {
 
-                            /* If Jenkins has responded to his name, use Android speech recognizer. */
+                            /* If Benson has responded to his name, use Android speech recognizer. */
                             if (utteranceId.equals(RESPONSE_SIR)) {
 
                                 runOnUiThread(new Runnable() {
@@ -353,16 +353,16 @@ public class ActivityMain extends Activity implements SpeechListener {
                                     }
                                 });
 
-                            /* If Jenkins has told the user to hold (Wolfram query) do not start listening. */
+                            /* If Benson has told the user to hold (Wolfram query) do not start listening. */
                             } else if (utteranceId.equals(RESPONSE_HOLD)) {
 
                                 /* Prevent speech recognition while Wolfram query is running. Only used to avoid the else call. */
-                                mJenkinsRecognizer.stop();
+                                mCMUSphinxRecognizer.stop();
 
                             } else {
 
-                                /* Jenkins has responded to the user and should start listening again. */
-                                mJenkinsRecognizer.startListening(RECOGNITION_KEY);
+                                /* Benson has responded to the user and should start listening again. */
+                                mCMUSphinxRecognizer.startListening(RECOGNITION_KEY);
 
                                 mTextViewHandler.postDelayed(mTextViewRunnable, (10 * 1000));
 
@@ -374,7 +374,7 @@ public class ActivityMain extends Activity implements SpeechListener {
                         public void onError(String utteranceId) {
 
                             /* This has never been called during testing. Start listening just in case. */
-                            mJenkinsRecognizer.startListening(RECOGNITION_KEY);
+                            mCMUSphinxRecognizer.startListening(RECOGNITION_KEY);
 
                         }
 
@@ -392,10 +392,10 @@ public class ActivityMain extends Activity implements SpeechListener {
     @Override
     public void onDestroy() {
 
-        if(mJenkinsRecognizer != null) {
+        if(mCMUSphinxRecognizer != null) {
 
-            mJenkinsRecognizer.stop();
-            mJenkinsRecognizer = null;
+            mCMUSphinxRecognizer.stop();
+            mCMUSphinxRecognizer = null;
 
         }
 
@@ -424,16 +424,16 @@ public class ActivityMain extends Activity implements SpeechListener {
     }
 
     /* Used for spoken response via text to speech. */
-    private void say(JenkinsResponse jenkinsResponse) {
+    private void say(Response response) {
 
         /* Create parameter with spoken text. This is used to display spoken text in animated text view. */
         final HashMap<String, String> params = new HashMap<String, String>();
-        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, jenkinsResponse.getReply());
+        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, response.getReply());
 
-        mTTS.speak(jenkinsResponse.getReply(), TextToSpeech.QUEUE_FLUSH, params);
+        mTTS.speak(response.getReply(), TextToSpeech.QUEUE_FLUSH, params);
 
         /* Sets the color of circle renderer to indicate mood. */
-        mCircleRenderer.changeColor(jenkinsResponse.getMood());
+        mCircleRenderer.changeColor(response.getMood());
 
     }
 
@@ -445,26 +445,26 @@ public class ActivityMain extends Activity implements SpeechListener {
             /* User speech has programmed response in XML file */
             if (mGenericResponseHashMap.containsKey(speechResult)) {
 
-                final ArrayList<JenkinsResponse> jenkinsResponseArrayList = mGenericResponseHashMap.get(speechResult);
+                final ArrayList<Response> responseArrayList = mGenericResponseHashMap.get(speechResult);
 
                 /* Multiple responses are available for each inquiry, select one at random. */
-                final int randomInteger = new Random().nextInt(jenkinsResponseArrayList.size());
+                final int randomInteger = new Random().nextInt(responseArrayList.size());
 
-                final JenkinsResponse jenkinsResponse = jenkinsResponseArrayList.get(randomInteger);
+                final Response response = responseArrayList.get(randomInteger);
 
-                say(jenkinsResponse);
+                say(response);
 
                 /* Write to serial any commands found in XML. Must upload simple_sketch to the Udoo to work. */
-                if (jenkinsResponse.getSerial() != null) {
+                if (response.getSerial() != null) {
 
-                    mAdkManager.writeSerial(jenkinsResponse.getSerial());
+                    mAdkManager.writeSerial(response.getSerial());
 
                 }
 
             /* No programmed response was found, let's call Wolfram API to response to the user's inquiry. */
             } else {
 
-                say(new JenkinsResponse(RESPONSE_HOLD, JenkinsResponse.MOOD.NORMAL, null));
+                say(new Response(RESPONSE_HOLD, Response.MOOD.NORMAL, null));
 
                 new WolframQuery().execute(speechResult);
 
@@ -473,13 +473,13 @@ public class ActivityMain extends Activity implements SpeechListener {
         /* User speech triggered an error, either timeout or garbled speech. Say error response. */
         } else {
 
-            say(new JenkinsResponse(speechResult, mood, null));
+            say(new Response(speechResult, mood, null));
 
         }
 
     }
 
-    /* This Runnable will clear any text on the screen and reset Jenkins mood. */
+    /* This Runnable will clear any text on the screen and reset Benson's mood. */
     private Runnable mTextViewRunnable = new Runnable() {
         @Override
         public void run() {
@@ -488,7 +488,7 @@ public class ActivityMain extends Activity implements SpeechListener {
 
                 mAnimatedTextView.setText(" ");
 
-                mCircleRenderer.changeColor(JenkinsResponse.MOOD.NORMAL);
+                mCircleRenderer.changeColor(Response.MOOD.NORMAL);
 
             }
 
@@ -518,7 +518,7 @@ public class ActivityMain extends Activity implements SpeechListener {
 
                 if (queryResult.isError()) {
 
-                    return "  error message: " + queryResult.getErrorMessage();
+                    return "Error:" + queryResult.getErrorMessage();
 
                 } else if (!queryResult.isSuccess()) {
 
@@ -554,7 +554,7 @@ public class ActivityMain extends Activity implements SpeechListener {
         @Override
         protected void onPostExecute(String result) {
 
-            say(new JenkinsResponse(result, JenkinsResponse.MOOD.NORMAL, null));
+            say(new Response(result, Response.MOOD.NORMAL, null));
 
         }
 

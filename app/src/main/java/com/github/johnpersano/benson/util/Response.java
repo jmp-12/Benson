@@ -15,15 +15,15 @@
  *
  */
 
-package com.github.johnpersano.jenkins.util;
+package com.github.johnpersano.benson.util;
 
 
 import android.graphics.Color;
 
-public class JenkinsResponse {
+public class Response {
 
     @SuppressWarnings("UnusedDeclaration")
-    private static final String TAG = "JenkinsResponse";
+    private static final String TAG = "Response";
 
     private String mReply;
     private int mMood;
@@ -41,13 +41,13 @@ public class JenkinsResponse {
 
     }
 
-    public JenkinsResponse() {
+    public Response() {
 
         /* Empty constructor */
 
     }
 
-    public JenkinsResponse(String reply, int mood, String serial) {
+    public Response(String reply, int mood, String serial) {
 
         this.mReply = reply;
         this.mMood = mood;
@@ -96,31 +96,31 @@ public class JenkinsResponse {
 
         if (mood.equalsIgnoreCase("NORMAL")) {
 
-            return JenkinsResponse.MOOD.NORMAL;
+            return Response.MOOD.NORMAL;
 
         } else if (mood.equalsIgnoreCase("ANGRY")) {
 
-            return JenkinsResponse.MOOD.ANGRY;
+            return Response.MOOD.ANGRY;
 
         } else if (mood.equalsIgnoreCase("ANNOYED")) {
 
-            return JenkinsResponse.MOOD.ANNOYED;
+            return Response.MOOD.ANNOYED;
 
         } else if (mood.equalsIgnoreCase("HAPPY")) {
 
-            return JenkinsResponse.MOOD.HAPPY;
+            return Response.MOOD.HAPPY;
 
         } else if (mood.equalsIgnoreCase("AGGRAVATED")) {
 
-            return JenkinsResponse.MOOD.AGGRAVATED;
+            return Response.MOOD.AGGRAVATED;
 
         } else if (mood.equalsIgnoreCase("INDIFFERENT")) {
 
-            return JenkinsResponse.MOOD.INDIFFERENT;
+            return Response.MOOD.INDIFFERENT;
 
         }
 
-        return JenkinsResponse.MOOD.NORMAL;
+        return Response.MOOD.NORMAL;
 
     }
 

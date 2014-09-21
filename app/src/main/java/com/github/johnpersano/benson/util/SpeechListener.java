@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.johnpersano.jenkins.util;
+package com.github.johnpersano.benson.util;
 
 public interface SpeechListener {
 

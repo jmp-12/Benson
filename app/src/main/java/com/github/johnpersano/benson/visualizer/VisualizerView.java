@@ -5,7 +5,7 @@
  * http://creativecommons.org/licenses/MIT/
  */
 
-package com.github.johnpersano.jenkins.visualizer;
+package com.github.johnpersano.benson.visualizer;
 
 import android.content.Context;
 import android.graphics.Bitmap;

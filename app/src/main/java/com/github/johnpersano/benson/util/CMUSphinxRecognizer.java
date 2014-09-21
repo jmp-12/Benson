@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.johnpersano.jenkins.util;
+package com.github.johnpersano.benson.util;
 
 
 import android.content.Context;
@@ -28,14 +28,14 @@ import edu.cmu.pocketsphinx.SpeechRecognizer;
 
 import static edu.cmu.pocketsphinx.SpeechRecognizerSetup.defaultSetup;
 
-public class JenkinsRecognizer {
+public class CMUSphinxRecognizer {
 
     @SuppressWarnings("UnusedDeclaration")
-    private static final String TAG = "JenkinsRecognizer";
+    private static final String TAG = "CMUSphinxRecognizer";
 
     private Context mContext;
 
-    public JenkinsRecognizer(Context context) {
+    public CMUSphinxRecognizer(Context context) {
 
         this.mContext = context;
 

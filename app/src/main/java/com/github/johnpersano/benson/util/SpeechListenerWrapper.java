@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.johnpersano.jenkins.util;
+package com.github.johnpersano.benson.util;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -80,13 +80,13 @@ public class SpeechListenerWrapper implements RecognitionListener {
 
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
 
-                mSpeechListener.onSpeechResult(false, "How rude.", JenkinsResponse.MOOD.ANGRY);
+                mSpeechListener.onSpeechResult(false, "How rude.", Response.MOOD.ANGRY);
 
                 break;
 
             case SpeechRecognizer.ERROR_NO_MATCH:
 
-                mSpeechListener.onSpeechResult(false, "I have no idea what you're saying.", JenkinsResponse.MOOD.AGGRAVATED);
+                mSpeechListener.onSpeechResult(false, "I have no idea what you're saying.", Response.MOOD.AGGRAVATED);
 
                 break;
 
@@ -107,7 +107,7 @@ public class SpeechListenerWrapper implements RecognitionListener {
     @Override
     public void onPartialResults(Bundle partialResults) {
 
-        mSpeechListener.onSpeechResult(false, "I'm sorry, could you repeat that?", JenkinsResponse.MOOD.INDIFFERENT);
+        mSpeechListener.onSpeechResult(false, "I'm sorry, could you repeat that?", Response.MOOD.INDIFFERENT);
 
     }
 

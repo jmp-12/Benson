@@ -15,12 +15,12 @@
  *
  */
 
-package com.github.johnpersano.jenkins.util;
+package com.github.johnpersano.benson.util;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 
-import com.github.johnpersano.jenkins.R;
+import com.github.johnpersano.benson.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -53,11 +53,11 @@ public class ResponseGenerator {
 
     /* Convert responses defined in XML to HashMap. */
     @SuppressWarnings("ConstantConditions")
-    public HashMap<String, ArrayList<JenkinsResponse>> getResponseMap() throws XmlPullParserException, IOException {
+    public HashMap<String, ArrayList<Response>> getResponseMap() throws XmlPullParserException, IOException {
 
         /* HashMap will store a key (user speech) and an array of potential replies. */
-        final HashMap<String, ArrayList<JenkinsResponse>> responseHashMap =
-                new HashMap<String, ArrayList<JenkinsResponse>>();
+        final HashMap<String, ArrayList<Response>> responseHashMap =
+                new HashMap<String, ArrayList<Response>>();
 
         final XmlResourceParser xmlResourceParser = mContext.getResources().getXml(R.xml.generic_responses);
 
@@ -65,7 +65,7 @@ public class ResponseGenerator {
 
         /* Reuse objects for efficiency. */
         String key = "";
-        ArrayList<JenkinsResponse> jenkinsResponseArrayList = null;
+        ArrayList<Response> responseArrayList = null;
 
         while (eventType != XmlPullParser.END_DOCUMENT) {
 
@@ -75,18 +75,18 @@ public class ResponseGenerator {
 
                     key = xmlResourceParser.getAttributeValue(null, ATTRIBUTE_QUERY);
 
-                    jenkinsResponseArrayList = new ArrayList<JenkinsResponse>();
+                    responseArrayList = new ArrayList<Response>();
 
                 }
 
                 if(xmlResourceParser.getName().equalsIgnoreCase(RESPONSE)) {
 
-                    final JenkinsResponse jenkinsResponse = new JenkinsResponse();
-                    jenkinsResponse.setReply(xmlResourceParser.getAttributeValue(null, ATTRIBUTE_REPLY));
-                    jenkinsResponse.setMood(jenkinsResponse.convertStringToMood(xmlResourceParser.getAttributeValue(null, ATTRIBUTE_MOOD)));
-                    jenkinsResponse.setSerial(xmlResourceParser.getAttributeValue(null, ATTRIBUTE_SERIAL));
+                    final Response response = new Response();
+                    response.setReply(xmlResourceParser.getAttributeValue(null, ATTRIBUTE_REPLY));
+                    response.setMood(response.convertStringToMood(xmlResourceParser.getAttributeValue(null, ATTRIBUTE_MOOD)));
+                    response.setSerial(xmlResourceParser.getAttributeValue(null, ATTRIBUTE_SERIAL));
 
-                    jenkinsResponseArrayList.add(jenkinsResponse);
+                    responseArrayList.add(response);
 
                 }
 
@@ -94,7 +94,7 @@ public class ResponseGenerator {
 
                 if(xmlResourceParser.getName().equalsIgnoreCase(QUERY)) {
 
-                    responseHashMap.put(key, jenkinsResponseArrayList);
+                    responseHashMap.put(key, responseArrayList);
 
                 }
 

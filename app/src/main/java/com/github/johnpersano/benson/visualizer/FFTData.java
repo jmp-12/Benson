@@ -5,7 +5,7 @@
  * http://creativecommons.org/licenses/MIT/
  */
 
-package com.github.johnpersano.jenkins.visualizer;
+package com.github.johnpersano.benson.visualizer;
 
 /* Data class to explicitly indicate that these bytes are the FFT of audio data */
 public class FFTData {

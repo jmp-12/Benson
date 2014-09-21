@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.johnpersano.jenkins.views;
+package com.github.johnpersano.benson.views;
 
 import android.content.Context;
 import android.os.Handler;

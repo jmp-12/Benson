@@ -5,7 +5,7 @@ android {
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        applicationId "com.github.johnpersano.jenkins"
+        applicationId "com.github.johnpersano.benson"
         minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
