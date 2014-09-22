@@ -12,7 +12,6 @@
     <Query query="how are you doing">
         <Responses>
             <Response reply="I'm doing well." mood="HAPPY"/>
-            <Response reply="I'm doing well, although Ramm looks a bit hungry." mood="NORMAL"/>
             <Response reply="I'm doing just fine." mood="NORMAL"/>
             <Response reply="I'm doing quite well actually." mood="HAPPY"/>
         </Responses>
@@ -106,52 +105,51 @@
 
     <Query query="turn the light on">
         <Responses>
-            <Response reply="Fine. I suppose manners would be too much to ask of you." mood="AGGRAVATED" serial="1"/>
-            <Response reply="No. Not until you ask properly." mood="ANGRY"/>
-            <Response reply="No. Not until you ask respectfully." mood="ANGRY"/>
+            <Response reply="Turning the light on." mood="NORMAL" serial="1"/>
+            <Response reply="The light has been turned on." mood="NORMAL" serial="1"/>
+            <Response reply="I'll get right on it." mood="NORMAL" serial="1"/>
+        </Responses>
+    </Query>
+
+    <Query query="turn the light on now">
+        <Responses>
+            <Response reply="No. Not until you ask properly." mood="AGGRAVATED"/>
+            <Response reply="No. Not until you ask respectfully." mood="AGGRAVATED"/>
+            <Response reply="Who do you think I am, your personal butler?" mood="ANGRY"/>
+            <Response reply="With that attitude you can do it yourself you twit." mood="ANGRY"/>
         </Responses>
     </Query>
 
     <Query query="turn the light on please">
         <Responses>
-            <Response reply="Very well, the light has been turned on." mood="HAPPY" serial="1"/>
-            <Response reply="Light on. See where politeness gets you?" mood="HAPPY" serial="1"/>
-        </Responses>
-    </Query>
-
-    <Query query="can you turn the light on">
-        <Responses>
-            <Response reply="I might be able to. You might also start asking politely." mood="ANNOYED"/>
-            <Response reply="Of course I 'can', but I won't until you ask properly." mood="AGGRAVATED"/>
-        </Responses>
-    </Query>
-
-    <Query query="can you turn the light on please">
-        <Responses>
-            <Response reply="It would be my pleasure." mood="HAPPY" serial="1"/>
-            <Response reply="Right away sir." mood="HAPPY" serial="1"/>
-        </Responses>
-    </Query>
-
-    <Query query="can you please turn the light on">
-        <Responses>
-            <Response reply="It would be my pleasure." mood="HAPPY" serial="1"/>
-            <Response reply="Right away sir." mood="HAPPY" serial="1"/>
+            <Response reply="Certainly, light on." mood="HAPPY" serial="1"/>
+            <Response reply="Certainly good sir." mood="HAPPY" serial="1"/>
+            <Response reply="I'm on it." mood="HAPPY" serial="1"/>
         </Responses>
     </Query>
 
     <Query query="turn the light off">
         <Responses>
-            <Response reply="Light off. I suppose manners would be too much to ask of you." mood="AGGRAVATED" serial="0"/>
-            <Response reply="No. Not until you ask properly." mood="ANGRY"/>
-            <Response reply="No. Not until you ask respectfully." mood="ANGRY"/>
+            <Response reply="Turning the light off." mood="NORMAL" serial="0"/>
+            <Response reply="The light has been turned off." mood="NORMAL" serial="0"/>
+            <Response reply="I'll get right on it." mood="NORMAL" serial="0"/>
+        </Responses>
+    </Query>
+
+    <Query query="turn the light off now">
+        <Responses>
+            <Response reply="No. Not until you ask properly." mood="AGGRAVATED"/>
+            <Response reply="No. Not until you ask respectfully." mood="AGGRAVATED"/>
+            <Response reply="Who do you think I am, your personal butler?" mood="ANGRY"/>
+            <Response reply="With that attitude you can do it yourself you twit." mood="ANGRY"/>
         </Responses>
     </Query>
 
     <Query query="turn the light off please">
         <Responses>
-            <Response reply="Very well, the light has been turned off." mood="HAPPY" serial="0"/>
-            <Response reply="Certainly. Light off." mood="HAPPY" serial="0"/>
+            <Response reply="Certainly, light off." mood="HAPPY" serial="0"/>
+            <Response reply="Certainly good sir." mood="HAPPY" serial="0"/>
+            <Response reply="I'm on it." mood="HAPPY" serial="0"/>
         </Responses>
     </Query>
 
