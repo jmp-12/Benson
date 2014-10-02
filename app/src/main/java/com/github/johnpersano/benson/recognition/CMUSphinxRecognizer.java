@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.johnpersano.benson.util;
+package com.github.johnpersano.benson.recognition;
 
 
 import android.content.Context;
@@ -44,16 +44,16 @@ public class CMUSphinxRecognizer {
     /* Create speech recognizer. This should be done in an AsyncTask */
     public SpeechRecognizer getRecognizer() throws IOException {
 
-            final Assets assets = new Assets(mContext);
+        final Assets assets = new Assets(mContext);
 
-            final File assetDirectory = assets.syncAssets();
-            final File modelsDirectory = new File(assetDirectory, "models");
+        final File assetDirectory = assets.syncAssets();
+        final File modelsDirectory = new File(assetDirectory, "models");
 
-            return defaultSetup()
-                    .setAcousticModel(new File(modelsDirectory, "hmm/en-us-semi"))
-                    .setDictionary(new File(modelsDirectory, "dict/cmu07a.dic"))
-                    .setRawLogDir(assetDirectory).setKeywordThreshold(1e-20f)
-                    .getRecognizer();
+        return defaultSetup()
+                .setAcousticModel(new File(modelsDirectory, "hmm/en-us-semi"))
+                .setDictionary(new File(modelsDirectory, "dict/cmu07a.dic"))
+                .setRawLogDir(assetDirectory).setKeywordThreshold(1e-20f)
+                .getRecognizer();
 
     }
 
