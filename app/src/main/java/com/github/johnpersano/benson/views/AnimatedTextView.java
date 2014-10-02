@@ -22,14 +22,17 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/* Class was modified from Stack Overflow post
-* > http://stackoverflow.com/questions/16895520/moving-textview-pixel-by-pixel-every-one-second-in-android */
+/**
+ * Class was modified from Stack Overflow post:
+ * http://stackoverflow.com/questions/16895520/moving-textview-pixel-by-pixel-every-one-second-in-android
+ */
 public class AnimatedTextView extends TextView {
 
     private CharSequence mText;
     private int mIndex;
-    private long mDelay = 50; //Default 500ms delay
+    private long mDelay = 35;
 
+    @SuppressWarnings("UnusedDeclaration")
     public AnimatedTextView(Context context) {
         super(context);
 
@@ -37,6 +40,7 @@ public class AnimatedTextView extends TextView {
 
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public AnimatedTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -52,6 +56,7 @@ public class AnimatedTextView extends TextView {
         public void run() {
 
             setText(mText.subSequence(0, mIndex++));
+
             if(mIndex <= mText.length()) {
 
                 mHandler.postDelayed(characterAdder, mDelay);
