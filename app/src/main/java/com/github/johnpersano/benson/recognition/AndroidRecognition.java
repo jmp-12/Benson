@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.johnpersano.benson.util;
+package com.github.johnpersano.benson.recognition;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -24,16 +24,27 @@ import android.speech.SpeechRecognizer;
 import java.util.ArrayList;
 
 
-public class SpeechListenerWrapper implements RecognitionListener {
+public class AndroidRecognition implements RecognitionListener {
 
     @SuppressWarnings("unused")
     private static final String TAG = "SpeechListenerWrapper";
 
-    SpeechListener mSpeechListener;
+    private static final String RESPONSE_TIMEOUT = "How rude.";
+    private static final String RESPONSE_BAD_SPEECH = "I have no idea what you're saying.";
+    private static final String RESPONSE_PARTIAL_RESULTS =  "I'm sorry, could you repeat that?";
 
-    public SpeechListenerWrapper(SpeechListener speechListener) {
+    /* Custom listener for speech result */
+    public interface OnResultListener {
 
-        this.mSpeechListener = speechListener;
+        public void onSpeechResult(boolean resultOK, String hypothesis);
+
+    }
+
+    private OnResultListener mOnResultListener;
+
+    public AndroidRecognition(OnResultListener onResultListener) {
+
+        this.mOnResultListener = onResultListener;
 
     }
 
@@ -80,13 +91,13 @@ public class SpeechListenerWrapper implements RecognitionListener {
 
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
 
-                mSpeechListener.onSpeechResult(false, "How rude.", Response.MOOD.ANGRY);
+                mOnResultListener.onSpeechResult(false, RESPONSE_TIMEOUT);
 
                 break;
 
             case SpeechRecognizer.ERROR_NO_MATCH:
 
-                mSpeechListener.onSpeechResult(false, "I have no idea what you're saying.", Response.MOOD.AGGRAVATED);
+                mOnResultListener.onSpeechResult(false, RESPONSE_BAD_SPEECH);
 
                 break;
 
@@ -100,14 +111,14 @@ public class SpeechListenerWrapper implements RecognitionListener {
         final ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-        mSpeechListener.onSpeechResult(true, matches.get(0), 0);
+        mOnResultListener.onSpeechResult(true, matches.get(0));
 
     }
 
     @Override
     public void onPartialResults(Bundle partialResults) {
 
-        mSpeechListener.onSpeechResult(false, "I'm sorry, could you repeat that?", Response.MOOD.INDIFFERENT);
+        mOnResultListener.onSpeechResult(false, RESPONSE_PARTIAL_RESULTS);
 
     }
 
