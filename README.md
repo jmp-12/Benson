@@ -27,7 +27,7 @@ Libraries used
 [CMUSphinx](http://cmusphinx.sourceforge.net/wiki/tutorialandroid) <br>
 [Wolfram Alpha Java bindings](http://products.wolframalpha.com/api/libraries.html) <br>
 [Android Visualizer](https://github.com/felixpalmer/android-visualizer) <br>
-[ADK Toolkit](https://github.com/palazzem/adk-toolkit)
+[ADK Toolkit](https://github.com/palazzem/adk-toolkit) <br>
 [Google Gson](https://code.google.com/p/google-gson/)
 
 Developer
