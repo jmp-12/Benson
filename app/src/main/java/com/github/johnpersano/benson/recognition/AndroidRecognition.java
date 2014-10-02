@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class AndroidRecognition implements RecognitionListener {
 
     @SuppressWarnings("unused")
-    private static final String TAG = "SpeechListenerWrapper";
+    private static final String TAG = "AndroidRecognition";
 
     private static final String RESPONSE_TIMEOUT = "How rude.";
     private static final String RESPONSE_BAD_SPEECH = "I have no idea what you're saying.";
