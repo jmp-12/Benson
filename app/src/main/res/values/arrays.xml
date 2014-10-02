@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Keywords CMUSphinx will listen for, sometimes benson is received twice. -->
+    <string-array name="cmusphinx_keywords">
+        <item>benson</item>
+        <item>benson benson</item>
+    </string-array>
+
+    <!-- Benson looked up the query but it returned nothing. -->
+    <string-array name="wolfram_no_find">
+        <item>I couldn\'t find an answer to that.</item>
+        <item>Sorry, I couldn\'t find anything online for that.</item>
+        <item>I couldn\'t seem to find an answer to that.</item>
+        <item>There\'s nothing on the internet about that.</item>
+    </string-array>
+
+    <!-- Benson tried to look up the query but Wolfram Alpha did not understand it. -->
+    <string-array name="wolfram_bad_query">
+        <item>The doesn\'t seem like a valid question.</item>
+        <item>That\'s not something I can look up.</item>
+        <item>Sorry, I wasn\'t able to look that up.</item>
+        <item>I\'m not sure what you mean by that.</item>
+        <item>I wasn\'t able to look that up.</item>
+    </string-array>
+
+</resources>

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Jenkins</string>
+    <string name="app_name">Benson</string>
+
+    <string name="initialization">Initializing...</string>
+
+
+    <string name="error_recognition">Recognition error.</string>
+
 
     <!-- <string name="wolfram_key">APP_KEY</string> -->
 
