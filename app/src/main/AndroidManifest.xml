@@ -17,7 +17,7 @@
         android:hardwareAccelerated="true">
 
         <activity
-            android:name=".ActivityMain"
+            android:name=".ActivityBenson"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
 

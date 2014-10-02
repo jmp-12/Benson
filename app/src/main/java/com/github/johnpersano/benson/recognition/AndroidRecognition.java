@@ -111,7 +111,7 @@ public class AndroidRecognition implements RecognitionListener {
         final ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-        mOnResultListener.onSpeechResult(true, matches.get(0));
+        mOnResultListener.onSpeechResult(true, matches.get(0).toLowerCase());
 
     }
 

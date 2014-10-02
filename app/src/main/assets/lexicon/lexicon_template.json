@@ -1,0 +1,33 @@
+{
+  "lexicon": [
+    {
+      "input": "hello",
+      "responses": [
+        {
+          "mood": "JOYOUS",
+          "reply": "Hello sir!"
+        },
+        {
+          "mood": "HAPPY",
+          "reply": "Hello!"
+        },
+        {
+          "mood": "NORMAL",
+          "reply": "Hello sir."
+        },
+        {
+          "mood": "ANNOYED",
+          "reply": "Hello."
+        },
+        {
+          "mood": "AGGRAVATED",
+          "reply": "Hi."
+        },
+        {
+          "mood": "ANGRY",
+          "reply": "Leave me alone."
+        }
+      ]
+    }
+  ]
+}

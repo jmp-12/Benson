@@ -104,8 +104,8 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
     /* Conversational vocabulary. This list will change depending on response clarification. */
     private List<Query> mLexiconList;
 
-    /* Benson's mood (visualizer color). Values range from 0 to 11. Nine is the 'upper end' of a normal mood. */
-    private int mMood = 9;
+    /* Benson's mood (visualizer color). Values range from 0 to 11. Seven is the 'upper end' of a normal mood. */
+    private int mMood = 7;
 
 
     @Override

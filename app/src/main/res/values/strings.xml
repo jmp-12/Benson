@@ -3,11 +3,11 @@
 
     <string name="app_name">Benson</string>
 
-    <string name="initialization">Initializing...</string>
-
+    <string name="initialization">Initializing Benson...</string>
 
     <string name="error_recognition">Recognition error.</string>
 
+    <string name="response_misunderstood_nested_lexicon">I don\'t quite understand your response.</string>
 
     <!-- <string name="wolfram_key">APP_KEY</string> -->
 
