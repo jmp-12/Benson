@@ -76,6 +76,7 @@ public class VisualizerView extends View {
     public void create() {
 
         mVisualizer = new Visualizer(0);
+        mVisualizer.setEnabled(false); // Illegal state exception fix
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 
         // Pass through Visualizer data to VisualizerView
