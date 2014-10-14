@@ -43,7 +43,7 @@ public class Joke extends Query {
     public Response getResponse(Context context, String hypothesis, AdkManager adkManager) {
 
         return new Response()
-                .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.jokes)));
+                .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.joke_default)));
 
     }
 
