@@ -18,13 +18,38 @@
 
 package com.github.johnpersano.benson.lexicon;
 
+import android.content.Context;
+
 import java.util.List;
 
-/* Holds a input/response pair. */
+import me.palazzetti.adktoolkit.AdkManager;
+
+/* All module classes should extend this class and override its methods. */
 public class Query {
 
-    public List<String> input;
+    /**
+     * Get input String List for the module.
+     *
+     * @return {@link java.util.List}
+     */
+    public List<String> getInputs() {
 
-    public List<Response> responses;
+        return null;
+
+    }
+
+    /**
+     * Get response from module.
+     *
+     * @param context The current Context.
+     * @param hypothesis The full string containing the user's speech.
+     * @param adkManager The ADK Manager which communicates with the Arduino DUE.
+     * @return {@link Response}
+     */
+    public Response getResponse(Context context,  String hypothesis, AdkManager adkManager) {
+
+        return null;
+
+    }
 
 }

@@ -5,7 +5,7 @@
  * http://creativecommons.org/licenses/MIT/
  */
 
-package com.github.johnpersano.benson.visualizer;
+package com.github.johnpersano.benson.views.visualizer;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;

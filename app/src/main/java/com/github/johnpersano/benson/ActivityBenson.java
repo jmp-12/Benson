@@ -21,6 +21,7 @@ package com.github.johnpersano.benson;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,17 +32,14 @@ import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 
-import com.github.johnpersano.benson.lexicon.Lexicon;
 import com.github.johnpersano.benson.lexicon.Query;
 import com.github.johnpersano.benson.lexicon.Response;
+import com.github.johnpersano.benson.lexicon.Lexicon;
 import com.github.johnpersano.benson.recognition.AndroidRecognition;
 import com.github.johnpersano.benson.recognition.CMUSphinxRecognition;
-import com.github.johnpersano.benson.recognition.CMUSphinxRecognizer;
 import com.github.johnpersano.benson.views.AnimatedTextView;
-import com.github.johnpersano.benson.visualizer.CircleRenderer;
-import com.github.johnpersano.benson.visualizer.VisualizerView;
-
-import com.google.gson.Gson;
+import com.github.johnpersano.benson.views.visualizer.CircleRenderer;
+import com.github.johnpersano.benson.views.visualizer.VisualizerView;
 
 import com.wolfram.alpha.WAEngine;
 import com.wolfram.alpha.WAException;
@@ -49,22 +47,25 @@ import com.wolfram.alpha.WAPlainText;
 import com.wolfram.alpha.WAQuery;
 import com.wolfram.alpha.WAQueryResult;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import edu.cmu.pocketsphinx.Assets;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
 import me.palazzetti.adktoolkit.AdkManager;
+
+import static edu.cmu.pocketsphinx.SpeechRecognizerSetup.defaultSetup;
 
 
 public class ActivityBenson extends Activity implements AndroidRecognition.OnResultListener {
 
     @SuppressWarnings("UnusedDeclaration")
-    private static final String TAG= "ActivityBenson";
+    private static final String TAG = "ActivityBenson";
 
     /* CMUSphinx keyword requires a string key. For simplicity, the value is set as 'key'. */
     private static final String RECOGNITION_KEY = "key";
@@ -99,13 +100,10 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
     private Handler mTextViewHandler;
 
     /* Default conversational vocabulary. This list is used to reset Benson's lexicon and does NOT change. */
-    private List<Query> mDefaultList;
+    private final List<? extends Query> mDefaultList = new Lexicon().lexicon;
 
     /* Conversational vocabulary. This list will change depending on response clarification. */
-    private List<Query> mLexiconList;
-
-    /* Benson's mood (visualizer color). Values range from 0 to 11. Seven is the 'upper end' of a normal mood. */
-    private int mMood = 7;
+    private List<? extends Query> mDynamicList;
 
 
     @Override
@@ -130,18 +128,6 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
                 findViewById(R.id.animated_textview);
         mAnimatedTextView.setText(getResources().getString(R.string.initialization));
 
-        /* Parse JSON to objects Benson can use */
-        try {
-
-            this.mDefaultList = this.mLexiconList = new Gson().fromJson(new InputStreamReader(this.getAssets().open("lexicon/lexicon.json")),
-                    Lexicon.class).queries;
-
-        } catch (IOException e) {
-
-            Log.e(TAG, e.toString());
-
-        }
-
         /* The CMUSphinxRecognizer will continuously listen for the word 'benson'. */
         initializeCMUSphinxRecognizer();
 
@@ -162,9 +148,9 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
         mVisualizerView.create();
 
         /* Add a circle renderer to the visualizer view. Other renderers can be used from the visualizer library. */
-        mCircleRenderer = new CircleRenderer(false);
+        mCircleRenderer = new CircleRenderer();
         mVisualizerView.addRenderer(mCircleRenderer);
-        mCircleRenderer.changeColor(getMood().getColor());
+        mCircleRenderer.changeColor(Color.CYAN);
 
         /* The Android TTS service will serve as Benson's voice. */
         initializeSpeech();
@@ -192,7 +178,14 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
                 try {
 
-                    mCMUSphinxRecognizer = new CMUSphinxRecognizer(ActivityBenson.this).getRecognizer();
+                    final File assetDirectory = new Assets(ActivityBenson.this).syncAssets();
+                    final File modelsDirectory = new File(assetDirectory, "models");
+
+                    mCMUSphinxRecognizer = defaultSetup()
+                            .setAcousticModel(new File(modelsDirectory, "hmm/en-us-semi"))
+                            .setDictionary(new File(modelsDirectory, "dict/cmu07a.dic"))
+                            .setRawLogDir(assetDirectory).setKeywordThreshold(1e-20f)
+                            .getRecognizer();
 
                 } catch (IOException exception) {
 
@@ -220,7 +213,7 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
                                 /* Check if response contains the Benson keywords. */
                                 if (Arrays.asList(getResources().getStringArray(R.array.cmusphinx_keywords)).contains(hypothesis)) {
 
-                                    say(new Response(RESPONSE_SIR));
+                                    say(new Response().setReply(RESPONSE_SIR));
 
                                 }
 
@@ -263,7 +256,7 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
                     mTTS.setLanguage(Locale.UK);
 
                     /* On first initialization tell user Benson is online. */
-                    say(new Response(RESPONSE_ONLINE));
+                    say(new Response().setReply(RESPONSE_ONLINE));
 
                     /* Set listener for Benson's speech. Both recognition services will start/stop based on speech progress. */
                     mTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -342,7 +335,7 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
     @Override
     public void onDestroy() {
 
-        if(mCMUSphinxRecognizer != null) {
+        if (mCMUSphinxRecognizer != null) {
 
             mCMUSphinxRecognizer.stop();
             mCMUSphinxRecognizer = null;
@@ -356,14 +349,14 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
         }
 
-        if(mAndroidRecognizer != null) {
+        if (mAndroidRecognizer != null) {
 
             mAndroidRecognizer.stopListening();
             mAndroidRecognizer.destroy();
 
         }
 
-        if(mVisualizerView != null) {
+        if (mVisualizerView != null) {
 
             mVisualizerView.release();
 
@@ -379,39 +372,18 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
         if (resultOK) {
 
-            for (Query query : mLexiconList) {
+            for (Query query : (mDynamicList != null) ? this.mDynamicList : mDefaultList) {
 
-                for (String input : query.input) {
+                for (String input : query.getInputs()) {
 
                     if (hypothesis.contains(input)) {
 
-                        for (Response response : query.responses) {
+                        final Response response = query.getResponse(ActivityBenson.this, hypothesis, mAdkManager);
+                        this.mDynamicList = response.getNestedLexicon();
 
-                            if(response.mood == getMood() || response.mood == null) {
+                        say(response);
 
-                                say(response);
-
-                                /* If response requires serial communication, write serial to the Due. */
-                                if(response.serial != null) {
-                                    mAdkManager.writeSerial(response.serial);
-
-                                }
-
-                                if(response.queries != null) {
-
-                                    this.mLexiconList = response.queries;
-
-                                } else {
-
-                                    this.mLexiconList = mDefaultList;
-
-                                }
-
-                                return;
-
-                            }
-
-                        }
+                        return;
 
                     }
 
@@ -419,16 +391,16 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
             }
 
-            if(!listsMatch(mDefaultList, mLexiconList)) {
+            if (mDynamicList != null) {
 
-                say(new Response(getResources().getString(R.string.response_misunderstood_nested_lexicon)));
+                say(new Response().setReply(getResources().getString(R.string.response_misunderstood_nested_lexicon)));
 
-                this.mLexiconList = mDefaultList;
+                this.mDynamicList = null;
 
             } else {
 
                 /* Benson was not able to find the user's query in his vocabulary, maybe it's a query for Wolfram Alpha. */
-                say(new Response(RESPONSE_HOLD));
+                say(new Response().setReply(RESPONSE_HOLD));
 
                 new WolframQuery().execute(hypothesis);
 
@@ -437,10 +409,10 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
         } else {
 
             /* Conversation context no longer applies. Reset vocabulary. */
-            this.mLexiconList = mDefaultList;
+            this.mDynamicList = null;
 
             /* Error, say error response. See AndroidRecognition class. */
-            say(new Response(hypothesis));
+            say(new Response().setReply(hypothesis));
 
         }
 
@@ -448,32 +420,11 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
     private void say(Response response) {
 
-        /* Get random reply in reply list to make Benson sound less robotic. */
-        final String reply = response.reply.get(new Random().nextInt(response.reply.size()));
-
         /* Create parameter with the text to be spoken. This is used to display subtitle. */
         final HashMap<String, String> params = new HashMap<String, String>();
-        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, reply);
+        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, response.getReply());
 
-        mTTS.speak(reply, TextToSpeech.QUEUE_FLUSH, params);
-
-        /* Benson has feelings too you know, modify his emotions depending on what you say to him. */
-        if(mMood + response.adjustment >= 11) {
-
-            mMood = 11;
-
-        } else if (mMood + response.adjustment <= 0) {
-
-            mMood = 0;
-
-        } else {
-
-            mMood = mMood + response.adjustment;
-
-        }
-
-        /* Sets the color of circle renderer to indicate mood. */
-        mCircleRenderer.changeColor(getMood().getColor());
+        mTTS.speak(response.getReply(), TextToSpeech.QUEUE_FLUSH, params);
 
     }
 
@@ -482,7 +433,7 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
         @Override
         public void run() {
 
-            if(mAnimatedTextView != null) {
+            if (mAnimatedTextView != null) {
 
                 mAnimatedTextView.setText(" ");
 
@@ -491,78 +442,6 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
         }
 
     };
-
-    /* Returns Benson's mood as a preset variable. Moods have two possible cases, we don't want him to change moods too fast. */
-    private Response.Mood getMood() {
-
-        switch(mMood) {
-
-            case 0:
-            case 1:
-
-                return Response.Mood.ANGRY;
-
-            case 2:
-            case 3:
-
-                return Response.Mood.AGGRAVATED;
-
-            case 4:
-            case 5:
-
-                return Response.Mood.ANNOYED;
-
-            case 6:
-            case 7:
-
-                return Response.Mood.NORMAL;
-
-            case 8:
-            case 9:
-
-                return Response.Mood.HAPPY;
-
-            case 10:
-            case 11:
-
-                return Response.Mood.JOYOUS;
-
-            default:
-
-                return Response.Mood.NORMAL;
-
-
-        }
-
-
-    }
-
-    /**
-     * Does the dynamic conversational vocabulary match the default vocabulary?
-     * If they do, we are within the default lexicon. If they do not, we are
-     * within a nested lexicon in a response.
-     */
-    private boolean listsMatch(List<Query> listOne, List<Query> listTwo) {
-
-        if(listOne.size() != listTwo.size()) {
-
-            return false;
-
-        }
-
-        for (int i = 0; i < listTwo.size(); i++) {
-
-            if(!listOne.get(i).input.equals(listTwo.get(i).input)) {
-
-                return false;
-
-            }
-
-        }
-
-        return true;
-
-    }
 
     /* AsyncTask to get response from Wolfram API. */
     private class WolframQuery extends AsyncTask<String, Void, String> {
@@ -625,7 +504,7 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
         @Override
         protected void onPostExecute(String result) {
 
-            say(new Response(result));
+            say(new Response().setReply(result));
 
         }
 

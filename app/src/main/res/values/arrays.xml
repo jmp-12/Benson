@@ -24,4 +24,98 @@
         <item>I wasn\'t able to look that up.</item>
     </string-array>
 
+    <!-- Component module. -->
+    <string-array name="component_on_default">
+        <item>Turning the component on sir.</item>
+        <item>Right away sir.</item>
+        <item>Sure thing sir.</item>
+    </string-array>
+
+    <string-array name="component_off_default">
+        <item>Turning the component off sir.</item>
+        <item>Right away sir.</item>
+        <item>Sure thing sir.</item>
+    </string-array>
+
+    <string-array name="component_default">
+        <item>What would you like me to do with the component sir?</item>
+        <item>What do you like me to do with the component sir?</item>
+    </string-array>
+
+    <!-- Hello module. -->
+    <string-array name="hello_default">
+        <item>Hello, how are you?</item>
+        <item>Hello, how are you today sir?</item>
+        <item>Greetings, how are you today?</item>
+        <item>Greetings, how are you?</item>
+        <item>Hi, how are you?</item>
+        <item>Hi, how are you sir?</item>
+    </string-array>
+
+    <string-array name="hello_positive_status">
+        <item>Glad to hear it sir.</item>
+        <item>Good to hear.</item>
+        <item>I\'m glad sir.</item>
+        <item>Fantastic.</item>
+    </string-array>
+
+    <string-array name="hello_negative_status">
+        <item>Sorry to hear that sir. Would a joke lighten the mood?</item>
+        <item>Sorry to hear that sir. Would a joke cheer you up?</item>
+        <item>Oh. Would a joke lighten the mood?</item>
+        <item>Oh. Would a joke cheer you up?</item>
+    </string-array>
+
+    <string-array name="hello_no_joke">
+        <item>Okay then. I\'ll be here if you change your mind.</item>
+        <item>I\'ll be here if you change your mind.</item>
+        <item>Okay then.</item>
+    </string-array>
+
+    <!-- HowAreYou module. -->
+    <string-array name="how_are_you_default">
+        <item>I\'m well. How are you?</item>
+        <item>I\'m well today, how about you?</item>
+        <item>I\'m well. How are you today?</item>
+    </string-array>
+
+    <string-array name="how_are_you_positive_status">
+        <item>Glad to hear it sir.</item>
+        <item>Good to hear.</item>
+        <item>I\'m glad sir.</item>
+        <item>Fantastic.</item>
+    </string-array>
+
+    <string-array name="how_are_you_negative_status">
+        <item>Sorry to hear that sir. Would a joke lighten the mood?</item>
+        <item>Sorry to hear that sir. Would a joke cheer you up?</item>
+        <item>Oh. Would a joke lighten the mood?</item>
+        <item>Oh. Would a joke cheer you up?</item>
+    </string-array>
+
+    <string-array name="how_are_you_no_joke">
+        <item>Okay then. I\'ll be here if you change your mind.</item>
+        <item>I\'ll be here if you change your mind.</item>
+        <item>Okay then.</item>
+    </string-array>
+
+    <!-- Joke module. -->
+    <string-array name="joke_default">
+        <item>The C language combines all the power of assembly language with all the ease-of-use of assembly language.</item>
+        <item>Linux is user friendly. It\'s just very particular about who its friends are.</item>
+        <item>There are 10 types of people in this world. Those who understand binary, and those who don\'t.</item>
+        <item>There\'s a band called 1023 megabytes. They don\'t have any gigs yet.</item>
+        <item>My software doesn\'t have any bugs. It just develops random features.</item>
+        <item>My attitude isn\’t bad. It’s in beta.</item>
+    </string-array>
+
+    <!-- Time module. -->
+    <string-array name="time_default">
+        <item>It\'s %1s.</item>
+        <item>Right now it is %1s.</item>
+        <item>It is %1s.</item>
+        <item>It is currently %1s.</item>
+        <item>%1s.</item>
+    </string-array>
+
 </resources>

@@ -5,7 +5,7 @@
  * http://creativecommons.org/licenses/MIT/
  */
 
-package com.github.johnpersano.benson.visualizer;
+package com.github.johnpersano.benson.views.visualizer;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,15 +16,12 @@ import android.graphics.Rect;
 public class CircleRenderer extends Renderer {
 
     private Paint mPaint;
-    private boolean mCycleColor;
     private float modulation = 0;
 
     /**
      * Renders the audio data onto a pulsing circle
-     *
-     * @param cycleColor - If true the color will change on each frame
      */
-    public CircleRenderer(boolean cycleColor) {
+    public CircleRenderer() {
         super();
 
         final Paint paint = new Paint();
@@ -33,18 +30,11 @@ public class CircleRenderer extends Renderer {
         paint.setColor(Color.argb(255, 222, 92, 143));
 
         this.mPaint = paint;
-        this.mCycleColor = cycleColor;
 
     }
 
     @Override
     public void onRender(Canvas canvas, AudioData data, Rect rect) {
-
-        if (mCycleColor) {
-
-            cycleColor();
-
-        }
 
         for (int i = 0; i < data.bytes.length - 1; i++) {
 
@@ -69,7 +59,7 @@ public class CircleRenderer extends Renderer {
         canvas.drawLines(mPoints, mPaint);
 
         // Controls the pulsing rate
-        modulation += 0.04;
+        modulation += 0.045;
 
     }
 
@@ -91,26 +81,12 @@ public class CircleRenderer extends Renderer {
         double cX = rect.width() / 2;
         double cY = rect.height() / 2;
         double angle = (cartesian[0]) * 2 * Math.PI;
-        float aggressive = 0.33f;
+        float aggressive = 0.30f;
 
         double radius = ((rect.width() / 2) * (1 - aggressive) + aggressive * cartesian[1] / 2) * (1.2 + Math.sin(modulation)) / 2.2;
-
+        radius += 50;
         return new float[]{ (float) (cX + radius * Math.sin(angle)),
                 (float) (cY + radius * Math.cos(angle)) };
-
-    }
-
-    private float colorCounter = 0;
-
-    private void cycleColor() {
-
-        int r = (int) Math.floor(128 * (Math.sin(colorCounter) + 1));
-        int g = (int) Math.floor(128 * (Math.sin(colorCounter + 2) + 1));
-        int b = (int) Math.floor(128 * (Math.sin(colorCounter + 4) + 1));
-
-        mPaint.setColor(Color.argb(128, r, g, b));
-
-        colorCounter += 0.03;
 
     }
 
