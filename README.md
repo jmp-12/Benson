@@ -1,15 +1,12 @@
 Benson
 =================
-
-Benson (formerly Jenkins) is a voice recognition program designed for the [Udoo Quad](http://shop.udoo.org/usa/?___from_store=usa&popup=no) running Android. Benson can respond to user input with pre-programmed phrases and search the web via Wolfram API for a response to an unknown query. Pre-programmed responses utilize moods to personify Benson's responses as well as accept parameters for serial communication with the onboard DUE. The result is a sarcastic, personable voice recognition system with access to net-based knowledge and Arduino compatible electronics.
+Benson is a voice recognition program designed for the [Udoo Quad](http://shop.udoo.org/usa/?___from_store=usa&popup=no). Benson can respond to user input with pre-programmed phrases and search the web via Wolfram API for a response to an unknown query. Pre-programmed responses can utilize native Android APIs as well as accept parameters for serial communication with the onboard DUE. The result is a sarcastic, personable voice recognition system with access to net-based knowledge and Arduino compatible electronics.
 
 ####Check out a quick demonstration on [YouTube](http://youtu.be/HjJCI1Hjb2c).
 
 <p align="center">
   <img src="http://i1016.photobucket.com/albums/af284/Turbopwned/bwd6j.gif" alt="Gif"/>
 </p>
-
-
 
 Using this application
 =========
@@ -21,6 +18,13 @@ In order to use this application on your Udoo Quad, you must do the following.
 2. Sign up for an app key from [Wolfram Alpha](https://developer.wolframalpha.com/portal/signin.html) and place it in the [strings resource](https://github.com/JohnPersano/Benson/blob/master/app/src/main/res/values/strings.xml) file.
 3. Install GAPPS on your Udoo. See Squawk003's method [here](http://www.udoo.org/forum/install-google-apps-t327-20.html).
 
+Creating new modules
+=========
+Creating new modules for Benson is easy! Check out the [module tutorial](https://github.com/JohnPersano/Benson/wiki/Creating-a-module-guide) for information about creating modules.
+
+Submitting errors, ideas for enhancements, and pull requests
+=========
+All errors, ideas for enhancements, and pull requests are welcome as long as they concern the Udoo Quad. Since I only own the Udoo Quad, I cannot personally test any code on other Udoo boards. This is a **must** before any code is included in the Benson project.
 
 Libraries used
 =========
@@ -28,12 +32,10 @@ Libraries used
 [Wolfram Alpha Java bindings](http://products.wolframalpha.com/api/libraries.html) <br>
 [Android Visualizer](https://github.com/felixpalmer/android-visualizer) <br>
 [ADK Toolkit](https://github.com/palazzem/adk-toolkit) <br>
-[Google Gson](https://code.google.com/p/google-gson/)
 
 Developer
 =========
 [John Persano](https://plus.google.com/+JohnPersano)
-
 
 License
 =======
