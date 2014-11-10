@@ -18,14 +18,18 @@
 
 package com.github.johnpersano.benson.lexicon;
 
-import com.google.gson.annotations.SerializedName;
+import com.github.johnpersano.benson.lexicon.modules.Component;
+import com.github.johnpersano.benson.lexicon.modules.Time;
+import com.github.johnpersano.benson.lexicon.modules.Hello;
+import com.github.johnpersano.benson.lexicon.modules.HowAreYou;
+import com.github.johnpersano.benson.lexicon.modules.Joke;
 
+import java.util.Arrays;
 import java.util.List;
 
-/* Holds a reference to Benson's lexicon. */
+/* This class holds the default lexicon for Benson. If any new modules are added, be sure to add them here as well. */
 public class Lexicon {
 
-    @SerializedName("lexicon")
-    public List<Query> queries;
+    public final List<? extends Query> lexicon = Arrays.asList(new Component(), new Hello(), new HowAreYou(), new Joke(), new Time());
 
 }

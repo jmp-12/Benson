@@ -18,68 +18,101 @@
 
 package com.github.johnpersano.benson.lexicon;
 
-import android.graphics.Color;
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-
-/* Holds a response to a given query. */
 public class Response {
 
-    /**
-     * Each response is paired with an appropriate mood. If Benson is joyous, he will
-     * respond with the joyous response to a given query. Each mood represents a color
-     * for Benson's visualiser.
-     */
-    public enum Mood {
-
-        JOYOUS(Color.GREEN),
-        HAPPY(Color.CYAN),
-        NORMAL(Color.WHITE),
-        ANNOYED(Color.YELLOW),
-        AGGRAVATED(Color.MAGENTA),
-        ANGRY(Color.RED);
-
-        private int color;
-
-        Mood(int color) {
-
-            this.color = color;
-
-        }
-
-        public int getColor() {
-
-            return color;
-
-        }
-
-    }
-
-    public Response(String reply) {
-
-        this.reply = new ArrayList<String>();
-        this.reply.add(reply);
-
-    }
-
-    /* The preset mood for the response. */
-    public Mood mood;
-
     /* The reply that Benson will speak. */
-    public List<String> reply;
-
-    /* The mood adjustment for a particular response. */
-    public int adjustment;
-
-    /* String to be sent to the DUE via serial. */
-    public String serial;
+    private String mReply;
 
     /* A nested set of queries for a response. Used for contextual conversations. */
-    @SerializedName("lexicon")
-    public List<Query> queries;
+    private List<? extends Query> mNestedLexicon;
+
+    public Response() {
+
+        /* Do nothing */
+
+    }
+
+    /**
+     * Set the reply Benson will speak.
+     *
+     * @param reply The reply Benson will speak.
+     * @return An instance of the {@link Response}
+     */
+    public Response setReply(String reply) {
+
+        this.mReply = reply;
+
+        return this;
+
+    }
+
+    /**
+     * Returns the reply Benson will speak.
+     *
+     * @return The {@link String} Benson will speak.
+     */
+    public String getReply() {
+
+        return this.mReply;
+
+    }
+
+    /**
+     * Set a {@link Query} {@link java.util.List} which
+     * will serve as Benson's lexicon. This is useful for clarification or continuous conversation.
+     *
+     * @param lexicon The {@link Query} items Benson will recognize.
+     * @return An instance of the {@link Response}
+     */
+    public Response setNestedLexicon(List<? extends Query> lexicon) {
+
+        this.mNestedLexicon = lexicon;
+
+        return this;
+
+    }
+
+    /**
+     * Returns the {@link Query} {@link java.util.List} that
+     * will serve as Benson's lexicon.
+     *
+     * @return The lexicon that Benson will use for known speech.
+     */
+    public List<? extends Query> getNestedLexicon() {
+
+        return this.mNestedLexicon;
+
+    }
+
+    /**
+     * Returns a random reply from a list of replies.
+     *
+     * @param replies Array resource.
+     * @return Random {@link String} in the array.
+     */
+    public static String getRandomReply(String[] replies) {
+
+        return replies[new Random().nextInt(replies.length)];
+
+    }
+
+    /**
+     * Returns a random reply formatted with the current time from a list of replies.
+     *
+     * @param replies Array resource.
+     * @return Random {@link String} in the array.
+     */
+    public static String getRandomTimeReply(String[] replies) {
+
+        final android.text.format.Time time = new android.text.format.Time(android.text.format.Time.getCurrentTimezone());
+        time.setToNow();
+
+        /* Format is (12h:minute)AM/PM. See <http://linux.die.net/man/3/strftime> for other options. */
+        return String.format(replies[new Random().nextInt(replies.length)], time.format("%l:%M%p"));
+
+    }
 
 }

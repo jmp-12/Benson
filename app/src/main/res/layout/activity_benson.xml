@@ -3,10 +3,10 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <com.github.johnpersano.benson.visualizer.VisualizerView
+    <com.github.johnpersano.benson.views.visualizer.VisualizerView
         android:id="@+id/visualizer_view"
-        android:layout_width="720dp"
-        android:layout_height="720dp"
+        android:layout_width="640dp"
+        android:layout_height="640dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

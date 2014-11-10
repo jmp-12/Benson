@@ -16,39 +16,34 @@
  */
 
 
-package com.github.johnpersano.benson.lexicon;
+package com.github.johnpersano.benson.lexicon.modules;
 
 import android.content.Context;
 
+import com.github.johnpersano.benson.R;
+import com.github.johnpersano.benson.lexicon.Query;
+import com.github.johnpersano.benson.lexicon.Response;
+
+import java.util.Arrays;
 import java.util.List;
 
 import me.palazzetti.adktoolkit.AdkManager;
 
-/* All module classes should extend this class and override its methods. */
-public class Query {
 
-    /**
-     * Get input String List for the module.
-     *
-     * @return {@link java.util.List}
-     */
+public class Joke extends Query {
+
+    @Override
     public List<String> getInputs() {
 
-        return null;
+        return Arrays.asList("a joke", "any jokes");
 
     }
 
-    /**
-     * Get response from module.
-     *
-     * @param context The current Context.
-     * @param hypothesis The full string containing the user's speech.
-     * @param adkManager The ADK Manager which communicates with the Arduino DUE.
-     * @return {@link com.github.johnpersano.benson.lexicon.Response}
-     */
-    public Response getResponse(Context context,  String hypothesis, AdkManager adkManager) {
+    @Override
+    public Response getResponse(Context context, String hypothesis, AdkManager adkManager) {
 
-        return null;
+        return new Response()
+                .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.joke_default)));
 
     }
 
