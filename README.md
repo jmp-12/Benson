@@ -22,7 +22,7 @@ Creating new modules
 =========
 Creating new modules for Benson is easy! Check out the [module tutorial](https://github.com/JohnPersano/Benson/wiki/Creating-a-module-guide) for information about creating modules.
 
-Submitting errors, ideas for enhancements, and pull requests
+User/developer submissions
 =========
 All errors, ideas for enhancements, and pull requests are welcome as long as they concern the Udoo Quad. Since I only own the Udoo Quad, I cannot personally test any code on other Udoo boards. This is a **must** before any code is included in the Benson project.
 
