@@ -52,14 +52,14 @@ public class Component extends Query {
 
         if (hypothesis.contains(ON)) {
 
-            adkManager.writeSerial(SERIAL_ON);
+            adkManager.write(SERIAL_ON);
 
             return new Response()
                     .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.component_on_default)));
 
         } else if (hypothesis.contains(OFF)) {
 
-            adkManager.writeSerial(SERIAL_OFF);
+            adkManager.write(SERIAL_OFF);
 
             return new Response()
                     .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.component_off_default)));
@@ -86,7 +86,7 @@ public class Component extends Query {
         @Override
         public Response getResponse(Context context, String hypothesis, AdkManager adkManager) {
 
-            adkManager.writeSerial(SERIAL_ON);
+            adkManager.write(SERIAL_ON);
 
             return new Response()
                     .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.component_on_default)));
@@ -107,7 +107,7 @@ public class Component extends Query {
         @Override
         public Response getResponse(Context context, String hypothesis, AdkManager adkManager) {
 
-            adkManager.writeSerial(SERIAL_OFF);
+            adkManager.write(SERIAL_OFF);
 
             return new Response()
                     .setReply(Response.getRandomReply(context.getResources().getStringArray(R.array.component_off_default)));
