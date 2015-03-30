@@ -91,7 +91,6 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
     /* The pulsating circles used to represent voice and status. */
     private VisualizerView mVisualizerView;
-    private CircleRenderer mCircleRenderer;
 
     /* Android Adk manager to communicate with the Arduino Due. */
     private AdkManager mAdkManager;
@@ -148,9 +147,9 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
         mVisualizerView.create();
 
         /* Add a circle renderer to the visualizer view. Other renderers can be used from the visualizer library. */
-        mCircleRenderer = new CircleRenderer();
-        mVisualizerView.addRenderer(mCircleRenderer);
-        mCircleRenderer.changeColor(Color.CYAN);
+        CircleRenderer circleRenderer = new CircleRenderer();
+        mVisualizerView.addRenderer(circleRenderer);
+        circleRenderer.changeColor(Color.CYAN);
 
         /* The Android TTS service will serve as Benson's voice. */
         initializeSpeech();
@@ -212,8 +211,6 @@ public class ActivityBenson extends Activity implements AndroidRecognition.OnRes
 
                                 /* Check if response contains the Benson keywords. */
                                 if (Arrays.asList(getResources().getStringArray(R.array.cmusphinx_keywords)).contains(hypothesis)) {
-
-                                    mVisualizerView.flash();
 
                                     say(new Response().setReply(RESPONSE_SIR));
 
